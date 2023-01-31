@@ -101,9 +101,7 @@ class Sphere (Circle):                # inherits from Circle
         return super().__str__()
 
 class Rectangle (Shape):                    # Doing in composition from Shape
-    def __init__ (self, x1, y1, x2, y2, l, w):
-        self.__point1 = Point(x1, y1)
-        self.__point2 = Point(x2, y2)
+    def __init__ (self, l, w):
         self.__l = self.__w = 0             # private l,w being protected
         self.setLength(l)
         self.setWidth(w)
@@ -115,7 +113,7 @@ class Rectangle (Shape):                    # Doing in composition from Shape
         return self.__l * self.__w
     
     def __str__ (self):
-        return "P1 = " + self.__point1.__str__() + ", P2 = " + self.__point2.__str__() + "; L = " + str(self.__l) + "; W = " + str(self.__w)
+        return "L = " + str(self.__l) + "; W = " + str(self.__w)
 
     # get/set l,w methods
     def getLength (self):
@@ -131,8 +129,8 @@ class Rectangle (Shape):                    # Doing in composition from Shape
 
 
 class Square (Rectangle):                   # inherits from Rectangle
-    def __init__ (self, x1, y1, x2, y2, a):
-        super().__init__(x1, y1, x2, y2, a, a)
+    def __init__ (self, a):
+        super().__init__(a, a)
 
     def getName (self):
         return "Square"
@@ -145,8 +143,8 @@ class Square (Rectangle):                   # inherits from Rectangle
 
 
 class Cube (Square):                        # inherits from Square
-    def __init__ (self, x1, y1, x2, y2, a):
-        super().__init__(x1, y1, x2, y2, a)
+    def __init__ (self, a):
+        super().__init__(a)
 
     def getName (self):
         return "Cube"
@@ -168,9 +166,9 @@ def main ():
     circle = Circle(30, 40, 5)
     cylinder = Cylinder(50, 60, 10, 20)
     sphere = Sphere(10, 10, 5)
-    rectangle = Rectangle(10, 11, 11, 10, 3, 5)
-    square = Square(10, 10, 11, 11, 5)
-    cube = Cube(10, 10, 5, 5, 2)
+    rectangle = Rectangle(3, 5)
+    square = Square(5)
+    cube = Cube(2)
 
     shapes = []
     shapes.append(point) 

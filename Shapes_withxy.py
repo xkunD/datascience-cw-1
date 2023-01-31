@@ -1,5 +1,4 @@
 import math                     # for pi
-import sys
 from abc import abstractmethod
 
 class Shape (object):           # inherits from object
@@ -101,9 +100,9 @@ class Sphere (Circle):                # inherits from Circle
     def __str__ (self):
         return super().__str__()
 
-
-class Rectangle (Shape):                    # Doing in composition from Shape
-    def __init__ (self, l, w):
+class Rectangle (Point):                    # inherits from Point
+    def __init__ (self, x, y, l, w):
+        super().__init__(x, y)
         self.__l = self.__w = 0             # private l,w being protected
         self.setLength(l)
         self.setWidth(w)
@@ -115,9 +114,10 @@ class Rectangle (Shape):                    # Doing in composition from Shape
         return self.__l * self.__w
     
     def __str__ (self):
-        return "L = " + str(self.__l) + "; W = " + str(self.__w)
+        return "C = " + super().__str__() + "; L = " + str(self.__l) + "; W = " + str(self.__w)
 
-    def getLength (self):           # get/set l,w methods
+    # get/set l,w methods
+    def getLength (self):
         return self.__l   
     def getWidth (self):
         return self.__w
@@ -130,13 +130,15 @@ class Rectangle (Shape):                    # Doing in composition from Shape
 
 
 class Square (Rectangle):                   # inherits from Rectangle
-    def __init__ (self, a):
-        super().__init__(a, a)
+    def __init__ (self, x, y, a):
+        super().__init__(x, y, a, a)
 
     def getName (self):
         return "Square"
-    
-    def getSide(self):                      # get/set methods
+
+    # inherits methods getArea and __str__ from Rectangle
+
+    def getSide(self):                      # get/set a methods
         return super().getLength()
     def setSide(self, a):
         super().setLength(a)
@@ -144,8 +146,8 @@ class Square (Rectangle):                   # inherits from Rectangle
 
 
 class Cube (Square):                        # inherits from Square
-    def __init__ (self, a):
-        super().__init__(a)
+    def __init__ (self, x, y, a):
+        super().__init__(x, y, a)
 
     def getName (self):
         return "Cube"
@@ -222,7 +224,7 @@ class ShapeList:
     def __checkxyInput():
         value = 0
         gotxyCorrectly = False
-        # maybe we dont need the while loop because no if else? ==> we need it loop
+        # maybe we dont need the while loop because no if else?
         while gotxyCorrectly == False:
             try:
                 value = float(input())
@@ -230,13 +232,6 @@ class ShapeList:
             except(ValueError, SyntaxError):
                 print("__checkxyInput: The value of the coordinate should be a float!")
         return value
-
-    def __getXY(self):
-        print("Please enter the x-coordinates value: ")
-        x = self.__checkxyInput()
-        print("Please enter the x-coordinates value: ")
-        y = self.__checkxyInput()
-        return x, y
 
     @staticmethod
     def __checkDimentionInput():
@@ -253,13 +248,24 @@ class ShapeList:
                 print("__checkDimentionInput: The value of its dimention should be a float!")
         return value
 
+    def __getXFromKeyboard(self):
+        print("Please enter the x-coordinates value: ")
+        x = self.__checkxyInput()
+        return x
+
+    def __getYFromKeyboard(self):
+        print("Please enter the y-coordinates value: ")
+        y = self.__checkxyInput()
+        return y
+
+
     @staticmethod
     def __getPrintChoiceFromKeyboard():
         printchoice = 0
         gotPrintChoiceCorrectly = False
         while gotPrintChoiceCorrectly == False:
             try:
-                printchoice = int(input("Your choice: "))
+                printchoice = int(input())
                 if printchoice == 1 or printchoice == 2:
                     gotPrintChoiceCorrectly = True
                 else:
@@ -280,25 +286,24 @@ class ShapeList:
             for i in range(self.__getListSize()):
                 self.__printShape(i)
 
-    def __addShapeFromUser (self):
+    def __addShapeFromKeyboard (self):
         shapeNumber = self.__getShapeNumberFromKeyboard()
+        x = self.__getXFromKeyboard()
+        y = self.__getYFromKeyboard()
         
         # add a while loop for getting it right?
 
         if shapeNumber == 1:
-            x, y = self.__getXY()
             point = Point(x, y)
             self.__addShape(point)
         
         elif shapeNumber == 2:
-            x, y = self.__getXY()
             print("Please enter the value of its radius: ")
             r = self.__checkDimentionInput()
             circle = Circle(x, y, r)
             self.__addShape(circle)
             
         elif shapeNumber == 3:
-            x, y = self.__getXY()
             print("Please enter the value of its radius: ")
             r = self.__checkDimentionInput()
             print("Please enter the value of its height: ")
@@ -307,7 +312,6 @@ class ShapeList:
             self.__addShape(cylinder)
 
         elif shapeNumber == 4:
-            x, y = self.__getXY()
             print("Please enter the value of its radius: ")
             r = self.__checkDimentionInput()
             sphere = Sphere(x, y, r)
@@ -318,24 +322,24 @@ class ShapeList:
             l = self.__checkDimentionInput()
             print("Please enter the value of its width: ")
             w = self.__checkDimentionInput()
-            rectangle = Rectangle(l, w)
+            rectangle = Rectangle(x, y, l, w)
             self.__addShape(rectangle)
 
         elif shapeNumber == 6:
             print("Please enter the value of its side: ")
             a = self.__checkDimentionInput()
-            square = Square(a)
+            square = Square(x, y, a)
             self.__addShape(square)
         
         elif shapeNumber == 7:
             print("Please enter the value of its side: ")
             a = self.__checkDimentionInput()
-            cube = Cube(a)
+            cube = Cube(x, y, a)
             self.__addShape(cube)
 
         print("The new shape with number", self.__getListSize(), "has been successfully added!")
 
-    def __removeShapeFromUser(self):
+    def __removeShapeFromKeyboard(self):
         if self.__isBlankList():
             print("The list is blank, please add a shape first!")
         else:
@@ -345,25 +349,21 @@ class ShapeList:
             print("The shape", ndelete, "has been successfully deleted!\n")
 
     def __printList(self):
-        if self.__isBlankList():
-            print("The list is blank, please add a shape first!")
+        print("Do you want to print a particular object, or print the whole list? \n" +
+                "1. Print a particular one \n" +
+                "2. Print the whole list")
+        printchoice = self.__getPrintChoiceFromKeyboard()
+        if printchoice == 1:
+            self.__printSelectedObject()
         else:
-            print("Do you want to print a particular object, or print the whole list? \n" +
-                    "1. Print a particular one \n" +
-                    "2. Print the whole list")
-            printchoice = self.__getPrintChoiceFromKeyboard()
-            if printchoice == 1:
-                self.__printSelectedObject()
-            else:
-                self.__printWholeList()
+            self.__printWholeList()
     
     def __modifyShape(self):
         print("Enter the number of the shape you want to modify:")
-
         
 
     def menu(self):
-        print("\nPlease choose the function you want to use: \n"
+        print("\nPlease choose the function you want to use and enter its number: \n"
             + "1. Add a new shape\n"
             + "2. Print out \n"
             + "3. Delete a shape \n"
@@ -372,22 +372,21 @@ class ShapeList:
         nmenu = 0
 
         try:
-            nmenu = int(input("Your choice: "))
+            nmenu = int(input())
             if nmenu == 1:
-                self.__addShapeFromUser()
+                self.__addShapeFromKeyboard()
             elif nmenu == 2:
                 self.__printList()
             elif nmenu == 3:
-                self.__removeShapeFromUser()
+                self.__removeShapeFromKeyboard()
             elif nmenu == 4:
                 print("not yet implemented!")
             elif nmenu == 5:
-                print("Nice to meet you. Bye!")
-                sys.exit(0)
+                exit
             else:
                 print("You should choose from choice 1 to 4!")
         except(ValueError, SyntaxError):
-            print("The choice should be entered as a number! Please try again:")
+            print("The choice should be entered as a number!")
 
 # main
 def main ():
@@ -398,4 +397,7 @@ def main ():
 
 if __name__ == "__main__":
     main()
+
+
+
 
