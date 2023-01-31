@@ -186,37 +186,22 @@ class ShapeList:
         print("Shape", nprint+1, ": " + self.__getList()[nprint].getName() + " " + str(self.__getList()[nprint]) + " Area: " + str(self.__getList()[nprint].getArea()) + " Volume: " + str(self.__getList()[nprint].getVolume()))
 
 
-    def __selectObjectFromKeyboard (self):
-        nselect = 0
-        gotNSelectCorrectly = False
-        while gotNSelectCorrectly == False:
-            try:
-                nselect = int(input())
-                if 0 < nselect <= self.__getListSize():
-                    gotNSelectCorrectly = True
-                else:
-                    print("__selectObjectFromKeyboard: The number of selected object should be a positive integer within the list size!")
-            except(ValueError, SyntaxError):
-                print("__selectObjectFromKeyboard: The number of selected object should be an integer!")
-        return nselect
-
     @staticmethod
-    def __getShapeNumberFromKeyboard():
-        print("Choose the shape you want to create and enter its number: \n" + 
-            "1. Point \n" + "2. Circle\n" + "3. Cylinder \n" + "4. Sphere \n" +
-            "5. Rectangle \n" + "6. Square \n" + "7. Cube")
-        shapeNumber = 0
-        gotShapeNumberCorrectly = False
-        while gotShapeNumberCorrectly == False:
+    def __getChoiceFromKeyboard (range):
+        choice = 0
+        gotChoiceCorrectly = False
+        while gotChoiceCorrectly == False:
             try:
-                shapeNumber = int(input())
-                if 0 < shapeNumber < 8:
-                    gotShapeNumberCorrectly = True
+                choice = int(input("Your choice: "))
+                if 0 < choice < range + 1:
+                    gotChoiceCorrectly = True
                 else:
-                    print("__getShapeNumberFromKeyboard: Shape number should be chosen from 1 to 7!")
+                    print("You should enter your choice from 1 to", range, 
+                    ", please try again: ")
             except(ValueError, SyntaxError):
-                print("__getShapeNumberFromKeyboard: Shape number should be an integer!")
-        return shapeNumber
+                print("Your choice should be an integer, please try again: ")
+        return choice
+    
 
     @staticmethod
     def __checkxyInput():
@@ -253,24 +238,10 @@ class ShapeList:
                 print("__checkDimentionInput: The value of its dimention should be a float!")
         return value
 
-    @staticmethod
-    def __getPrintChoiceFromKeyboard():
-        printchoice = 0
-        gotPrintChoiceCorrectly = False
-        while gotPrintChoiceCorrectly == False:
-            try:
-                printchoice = int(input("Your choice: "))
-                if printchoice == 1 or printchoice == 2:
-                    gotPrintChoiceCorrectly = True
-                else:
-                    print("printList: The choice number should be either 1 or 2!")
-            except(ValueError, SyntaxError):
-                print("printList: The choice number should be an integer!")
-        return printchoice
 
     def __printSelectedObject (self):
         print("Please enter the number of the object you want to print: ")
-        nselect = self.__selectObjectFromKeyboard()
+        nselect = self.__getChoiceFromKeyboard(self.__getListSize)
         self.__printShape(nselect-1)
 
     def __printWholeList (self):
@@ -280,8 +251,17 @@ class ShapeList:
             for i in range(self.__getListSize()):
                 self.__printShape(i)
 
+
+    def __modifyOneShape(self, n):
+        shape = self.__getList[n-1].__getName
+        if shape == "Point":
+            print("it has be modified!")
+
     def __addShapeFromUser (self):
-        shapeNumber = self.__getShapeNumberFromKeyboard()
+        print("\nChoose the shape you want to create and enter its number: \n" + 
+            "1. Point \n" + "2. Circle\n" + "3. Cylinder \n" + "4. Sphere \n" +
+            "5. Rectangle \n" + "6. Square \n" + "7. Cube")
+        shapeNumber = self.__getChoiceFromKeyboard(7)
         
         # add a while loop for getting it right?
 
@@ -340,7 +320,7 @@ class ShapeList:
             print("The list is blank, please add a shape first!")
         else:
             print("Enter the number of the shape you want to delete: ")
-            ndelete = self.__selectObjectFromKeyboard()
+            ndelete = self.__getChoiceFromKeyboard(self.__getListSize)
             self.__removeShape(ndelete)
             print("The shape", ndelete, "has been successfully deleted!\n")
 
@@ -348,18 +328,113 @@ class ShapeList:
         if self.__isBlankList():
             print("The list is blank, please add a shape first!")
         else:
-            print("Do you want to print a particular object, or print the whole list? \n" +
+            print("\nDo you want to print a particular object, or print the whole list? \n" +
                     "1. Print a particular one \n" +
                     "2. Print the whole list")
-            printchoice = self.__getPrintChoiceFromKeyboard()
+            printchoice = self.__getChoiceFromKeyboard(2)
             if printchoice == 1:
                 self.__printSelectedObject()
             else:
                 self.__printWholeList()
     
-    def __modifyShape(self):
-        print("Enter the number of the shape you want to modify:")
+    def __modifyShapeFromUser(self):
+        
+        print("\nEnter the number of the shape you want to modify:")
+        nmodify = self.__getChoiceFromKeyboard(self.__getListSize()) - 1
+        shape = self.__getList()[nmodify]
+        shapename = shape.getName()
+        
+        print("The details of the shape you selected are:")
+        # want a in line print here
+        self.__printShape(nmodify)
 
+        if shapename == "Point":
+            print("\nWhich parameter you want to modify? \n"
+                + "1. x-axis \n"
+                + "2. y-axis")
+            choice = self.__getChoiceFromKeyboard(2)
+            print("Enter the new value: ")
+            value = self.__checkxyInput()
+            if choice == 1:
+                self.__getList()[nmodify].setX(value)
+            elif choice == 2:
+                self.__getList()[nmodify].setY(value)
+            else:
+                print("Non expected error!")
+
+        elif shapename == "Circle":
+            print("Which parameter you want to modify? \n"
+                + "1. x-axis \n"
+                + "2. y-axis \n"
+                + "3. radius ")
+            choice = self.__getChoiceFromKeyboard(3)
+            print("Enter the new value: ")
+            if choice == 1:
+                self.__getList()[nmodify].setX(self.__checkxyInput())
+            elif choice == 2:
+                self.__getList()[nmodify].setX(self.__checkxyInput())
+            elif choice == 3:
+                self.__getList()[nmodify].setRadius(self.__checkDimentionInput())
+            else:
+                print("Non expected error!")
+        
+        elif shapename == "Cylinder":
+            print("Which parameter you want to modify? \n"
+                + "1. x-axis \n"
+                + "2. y-axis \n"
+                + "3. radius \n"
+                + "4. height ")
+            choice = self.__getChoiceFromKeyboard(4)
+            print("Enter the new value: ")
+            if choice == 1:
+                self.__getList()[nmodify].setX(self.__checkxyInput())
+            elif choice == 2:
+                self.__getList()[nmodify].setX(self.__checkxyInput())
+            elif choice == 3:
+                self.__getList()[nmodify].setRadius(self.__checkDimentionInput())
+            elif choice == 4:
+                self.__getList()[nmodify].setHeight(self.__checkDimentionInput())
+                
+        elif shapename == "Sphere":
+            print("Which parameter you want to modify? \n"
+                + "1. x-axis \n"
+                + "2. y-axis \n"
+                + "3. radius ")
+            choice = self.__getChoiceFromKeyboard(3)
+            print("Enter the new value: ")
+            if choice == 1:
+                self.__getList()[nmodify].setX(self.__checkxyInput())
+            elif choice == 2:
+                self.__getList()[nmodify].setX(self.__checkxyInput())
+            elif choice == 3:
+                self.__getList()[nmodify].setRadius(self.__checkDimentionInput())
+
+        elif shapename == "Rectangular":
+            print("Which parameter you want to modify? \n"
+                + "1. length \n"
+                + "2. width ")
+            choice = self.__getChoiceFromKeyboard(2)
+            print("Enter the new value: ")
+            if choice == 1:
+                self.__getList()[nmodify].setLength(self.__checkDimentionInput())
+            elif choice == 2:
+                self.__getList()[nmodify].setWidth(self.__checkDimentionInput())
+
+        elif shapename == "Square":
+            print("Enter the new value for its sides: ")
+            self.__getList()[nmodify].setSide(self.__checkDimentionInput())
+
+        elif shapename == "Cube":
+            print("Enter the new value for its sides: ")
+            self.__getList()[nmodify].setSide(self.__checkDimentionInput())
+        
+        else:
+            print("Shape name not found! non expected error!")
+        
+        print("You have successfully modified this shape. New shape details:")
+        self.__printShape(nmodify)
+
+                
         
 
     def menu(self):
@@ -380,7 +455,7 @@ class ShapeList:
             elif nmenu == 3:
                 self.__removeShapeFromUser()
             elif nmenu == 4:
-                print("not yet implemented!")
+                self.__modifyShapeFromUser()
             elif nmenu == 5:
                 print("Nice to meet you. Bye!")
                 sys.exit(0)
