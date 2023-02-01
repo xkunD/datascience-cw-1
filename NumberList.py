@@ -27,43 +27,72 @@ class NumberList:
         # end while loop
         return int(ndata)               # return ndata as int
     
+
     def getDataFromKeyboard (self):
         ndata = self.__getNDataFromKeyboard()
-        gotDataCorrectly = False
-        while gotDataCorrectly == False:
-            try:
-                input_list = input("Enter the data set with spaces:").split()
-                if(len(input_list) == ndata):
-                    for i in range(ndata):
-                        self.__data.append(float(input_list[i]))
+        print("Enter the data: ")
+        for i in range (ndata):
+            gotDataCorrectly = False
+            while gotDataCorrectly == False:
+                try:
+                    print(f'data[{i:d}] = ', end='')
+                    idata = float(input())
                     gotDataCorrectly = True
-                elif(len(input_list) > ndata or len(input_list) < ndata):
-                    print("getDataFromKeyboard: the number of input dataset elements must be same as ndata.")
-            except (ValueError, SyntaxError):
-                print("getDataFromKeyboard: data should be a list of float!")
+                except(ValueError, SyntaxError):
+                    print("getDataFromKeyboard: input data element should be a float!")
+            self.__data.append(idata)
+                    
 
     def getRandomData (self, ndata, range1, range2=0):
-        try:
-            if (int(range2) == 0):
-                low = 0;
-                high = int(range1)
-                number = int(ndata)
-            else:
-                low = int(range1)
-                high = int(range2)
-                number = int(ndata)
-        except(ValueError, SyntaxError):
-            print("ndata, range1, range2 should be integers or stringfied integers!" )
+        getRandomParameterCorrectly = False
+        while getRandomParameterCorrectly == False:
+            try:
+                if (int(range2) == 0):
+                    low = 0;
+                    high = int(range1)
+                    number = int(ndata)
+                    getRandomParameterCorrectly = True
+                else:
+                    low = int(range1)
+                    high = int(range2)
+                    number = int(ndata)
+                    if low < high:
+                        getRandomParameterCorrectly = True
+                    else:
+                        print("range2 should be larger than range1, please enter again:")
+                        ndata = input("ndata = ")
+                        range1 = input("range1 = ")
+                        range2 = input("range2 = ")
+            except(ValueError, SyntaxError):
+                print("ndata, range1, range2 should be integers or stringfied integers! Try enter again:" )
+                ndata = input("ndata = ")
+                range1 = input("range1 = ")
+                range2 = input("range2 = ")
         for i in range (number):
             self.__data.append(random.randrange(low, high))
 
+
     def getDataFromFile (self, fileName):  
-        file = open(fileName, 'r')
-        try:
-            for line in file:
-                self.__data.append(float(line.strip('\n')))
-        except(ValueError, SyntaxError):
-            print("The file can not be converted to float list!" )
+        filename = fileName
+        getFileNameCorrectly = False
+        while getFileNameCorrectly == False:
+            try:
+                file = open(filename, 'r')
+                getFileNameCorrectly = True
+            except(FileNotFoundError):
+                print("Can not find this file. Please try again to enter the file name: ")
+                filename = input()
+        i = 0
+        for line in file:
+            try:
+                idata = float(line.strip('\n'))
+                self.__data.append(idata)
+                print(f'data[{i:d}] = ', idata)
+                i = i+1
+            except(ValueError):
+                print("Data should be float numbers!" )
+                continue
+        file.close()
         
 # end class
 
@@ -90,9 +119,9 @@ def main():
     
     # nlist.getDataFromKeyboard()
 
-    # nlist.getRandomData2(5, 10)
+    nlist.getRandomData(5, 20, 12.2)
 
-    nlist.getDataFromFile("dataFile")
+    # nlist.getDataFromFile("datasFile")
 
     print("Numbers: " + str(nlist.getData()))               # print the data set
     print("Mean: " + str(mean(nlist.getData())))            # calculate and print mean

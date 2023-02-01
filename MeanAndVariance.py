@@ -13,7 +13,6 @@ def variance(data):
     sum_sqr = 0
     for i in range(n):
         sum_sqr = sum_sqr + (data[i] - mean_value)**2
-        # print("the difference is " , (data[i] - mean_value))
     var = sum_sqr / (n-1)
     return var
 
