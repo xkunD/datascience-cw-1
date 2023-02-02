@@ -93,7 +93,7 @@ class NumberList:
                 print('data[{}] = '.format(i), idata)
                 i = i+1
             except(ValueError):
-                print("Data should be float numbers!" )
+                print("Warning: This line can't be conver to float. It has been ignord but please only contain float numbers in file." )
                 continue
         file.close()
         
