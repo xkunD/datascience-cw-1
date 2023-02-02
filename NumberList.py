@@ -53,13 +53,13 @@ class NumberList:
                     number = int(ndata)
                     getRandomParameterCorrectly = True
                 else:
-                    low = int(range1)
-                    high = int(range2)
-                    number = int(ndata)
-                    if low < high:
+                    if range1 > range2:
                         getRandomParameterCorrectly = True
+                        low = int(range1)
+                        high = int(range2)
+                        number = int(ndata)
                     else:
-                        print("range2 should be larger than range1, please enter again:")
+                        print("range1 shouldn't be larger than range2, please enter again:")
                         ndata = input("ndata = ")
                         range1 = input("range1 = ")
                         range2 = input("range2 = ")
@@ -73,6 +73,7 @@ class NumberList:
 
 
     def getDataFromFile (self, fileName):  
+        i = 0
         filename = fileName
         getFileNameCorrectly = False
         while getFileNameCorrectly == False:
@@ -82,7 +83,6 @@ class NumberList:
             except(FileNotFoundError):
                 print("Can not find this file. Please try again to enter the file name: ")
                 filename = input()
-        i = 0
         for line in file:
             try:
                 idata = float(line.strip('\n'))
@@ -102,24 +102,22 @@ def mean(data):
 
 def variance(data):
     n = len(data)
-    sum_value = sum(data)
-    mean_value = sum_value/n
+    mean_value = mean(data)
     sum_sqr = 0
     for i in range(n):
         sum_sqr = sum_sqr + (data[i] - mean_value)**2
-        # print("the difference is " , (data[i] - mean_value))
     var = sum_sqr / (n-1)
     return var
 
 def main():
    
-    # mydata = [0.1, 1.1, 2.1, 3.1, 4.1]          # hardcoded data set values, list with 5 elements
+    mydata = [-234, 324, 3452, 2.3342, 12]          # hardcoded data set values, list with 5 elements
     nlist = NumberList()                       # create new empty NumberList object instance
-    # nlist.setData(mydata)                       # fill it in with the data set
+    nlist.setData(mydata)                       # fill it in with the data set
     
     # nlist.getDataFromKeyboard()
 
-    nlist.getRandomData(5, 20, 12.2)
+    # nlist.getRandomData(5, 20, 12.2)
 
     # nlist.getDataFromFile("datasFile")
 
