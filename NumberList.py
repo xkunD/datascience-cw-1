@@ -21,9 +21,9 @@ class NumberList:
                 if ndata % 1 == 0 and ndata >= 2:
                     gotNDataCorrectly = True
                 else:
-                    print("__getNDataFromKeyboard: ndata should be >=2")
+                    print("__getNDataFromKeyboard: ndata should be >=2! Try again:")
             except (ValueError, SyntaxError):
-                print("__getNDataFromKeyboard: ndata should be an integer!")
+                print("__getNDataFromKeyboard: ndata should be an integer! Try again:")
         # end while loop
         return int(ndata)               # return ndata as int
     
@@ -35,11 +35,10 @@ class NumberList:
             gotDataCorrectly = False
             while gotDataCorrectly == False:
                 try:
-                    print(f'data[{i:d}] = ', end='')
                     idata = float(input())
                     gotDataCorrectly = True
                 except(ValueError, SyntaxError):
-                    print("getDataFromKeyboard: input data element should be a float!")
+                    print("getDataFromKeyboard: input data element should be a float! Try again:")
             self.__data.append(idata)
                     
 
@@ -47,22 +46,26 @@ class NumberList:
         getRandomParameterCorrectly = False
         while getRandomParameterCorrectly == False:
             try:
-                if (int(range2) == 0):
-                    low = 0;
-                    high = int(range1)
-                    number = int(ndata)
-                    getRandomParameterCorrectly = True
+                if '.' in ndata or '.' in range1 or '.' in range2:
+                    raise ValueError
                 else:
-                    if range1 > range2:
-                        getRandomParameterCorrectly = True
-                        low = int(range1)
-                        high = int(range2)
+                    if (int(range2) == 0):
+                        low = 0;
+                        high = int(range1)
                         number = int(ndata)
+                        getRandomParameterCorrectly = True
                     else:
-                        print("range1 shouldn't be larger than range2, please enter again:")
-                        ndata = input("ndata = ")
-                        range1 = input("range1 = ")
-                        range2 = input("range2 = ")
+                        if range1 < range2:
+                            getRandomParameterCorrectly = True
+                            low = int(range1)
+                            high = int(range2)
+                            number = int(ndata)
+                        else:
+                            print("range1 shouldn't be larger than range2, please enter again:")
+                            ndata = input("ndata = ")
+                            range1 = input("range1 = ")
+                            range2 = input("range2 = ")
+                
             except(ValueError, SyntaxError):
                 print("ndata, range1, range2 should be integers or stringfied integers! Try enter again:" )
                 ndata = input("ndata = ")
@@ -87,7 +90,7 @@ class NumberList:
             try:
                 idata = float(line.strip('\n'))
                 self.__data.append(idata)
-                print(f'data[{i:d}] = ', idata)
+                print('data[{}] = '.format(i), idata)
                 i = i+1
             except(ValueError):
                 print("Data should be float numbers!" )
@@ -111,11 +114,11 @@ def variance(data):
 
 def main():
    
-    mydata = [-234, 324, 3452, 2.3342, 12]          # hardcoded data set values, list with 5 elements
+    # mydata = [-234, 324, 3452, 2.3342, 12]          # hardcoded data set values, list with 5 elements
     nlist = NumberList()                       # create new empty NumberList object instance
-    nlist.setData(mydata)                       # fill it in with the data set
+    # nlist.setData(mydata)                       # fill it in with the data set
     
-    # nlist.getDataFromKeyboard()
+    nlist.getDataFromKeyboard()
 
     # nlist.getRandomData(5, 20, 12.2)
 
