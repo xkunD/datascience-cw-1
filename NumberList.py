@@ -55,7 +55,7 @@ class NumberList:
                         number = int(ndata)
                         getRandomParameterCorrectly = True
                     else:
-                        if range1 < range2:
+                        if int(range1) < int(range2):
                             getRandomParameterCorrectly = True
                             low = int(range1)
                             high = int(range2)
