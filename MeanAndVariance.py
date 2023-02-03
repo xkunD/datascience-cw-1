@@ -1,4 +1,3 @@
-
 from NumberList import NumberList       # NumberList class is in file NumberList.py
 import sys                              # for sys.argv and sys.exit()
 

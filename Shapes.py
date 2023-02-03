@@ -354,7 +354,7 @@ class ShapeList:
                     + "1. x-axis \n"
                     + "2. y-axis")
                 choice = self.__getChoiceInput(2)
-                print("\nEnter the new value", end=' : ')
+                print("\nEnter the new value", end = " : ")
                 value = self.__checkxyInput()
                 if choice == 1:
                     self.__getList()[nmodify].setX(value)
@@ -364,12 +364,12 @@ class ShapeList:
                     print("Non expected error!")
 
             elif shapename == "Circle":
-                print("Which parameter you want to modify? \n"
+                print("\nWhich parameter you want to modify? \n"
                     + "1. x-axis \n"
                     + "2. y-axis \n"
                     + "3. radius ")
                 choice = self.__getChoiceInput(3)
-                print("Enter the new value: ")
+                print("\nEnter the new value", end = " : ")
                 if choice == 1:
                     self.__getList()[nmodify].setX(self.__checkxyInput())
                 elif choice == 2:
@@ -380,13 +380,13 @@ class ShapeList:
                     print("Non expected error!")
             
             elif shapename == "Cylinder":
-                print("Which parameter you want to modify? \n"
+                print("\nWhich parameter you want to modify? \n"
                     + "1. x-axis \n"
                     + "2. y-axis \n"
                     + "3. radius \n"
                     + "4. height ")
                 choice = self.__getChoiceInput(4)
-                print("Enter the new value: ")
+                print("\nEnter the new value", end = " : ")
                 if choice == 1:
                     self.__getList()[nmodify].setX(self.__checkxyInput())
                 elif choice == 2:
@@ -397,12 +397,12 @@ class ShapeList:
                     self.__getList()[nmodify].setHeight(self.__getDimentionInput())
                     
             elif shapename == "Sphere":
-                print("Which parameter you want to modify? \n"
+                print("\nWhich parameter you want to modify? \n"
                     + "1. x-axis \n"
                     + "2. y-axis \n"
                     + "3. radius ")
                 choice = self.__getChoiceInput(3)
-                print("Enter the new value: ")
+                print("\nEnter the new value", end = " : ")
                 if choice == 1:
                     self.__getList()[nmodify].setX(self.__checkxyInput())
                 elif choice == 2:
@@ -411,22 +411,22 @@ class ShapeList:
                     self.__getList()[nmodify].setRadius(self.__getDimentionInput())
 
             elif shapename == "Rectangle":
-                print("Which parameter you want to modify? \n"
+                print("\nWhich parameter you want to modify? \n"
                     + "1. length \n"
                     + "2. width ")
                 choice = self.__getChoiceInput(2)
-                print("Enter the new value: ")
+                print("\nEnter the new value", end = " : ")
                 if choice == 1:
                     self.__getList()[nmodify].setLength(self.__getDimentionInput())
                 elif choice == 2:
                     self.__getList()[nmodify].setWidth(self.__getDimentionInput())
 
             elif shapename == "Square":
-                print("Enter the new value for its sides: ")
+                print("\nEnter the new value for its sides: ")
                 self.__getList()[nmodify].setSide(self.__getDimentionInput())
 
             elif shapename == "Cube":
-                print("Enter the new value for its sides: ")
+                print("\nEnter the new value for its sides", end = " : ")
                 self.__getList()[nmodify].setSide(self.__getDimentionInput())
             
             else:
