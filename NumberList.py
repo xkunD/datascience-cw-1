@@ -46,7 +46,7 @@ class NumberList:
         getRandomParameterCorrectly = False
         while getRandomParameterCorrectly == False:
             try:
-                if '.' in ndata or '.' in range1 or '.' in range2:
+                if '.' in str(ndata) or '.' in str(range1) or '.' in str(range2):
                     raise ValueError
                 else:
                     if (int(range2) == 0):
