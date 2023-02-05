@@ -76,63 +76,28 @@ class NumberList:
 
 
     def getDataFromFile (self, fileName):  
-        i = 0
-        filename = fileName
+        i = 0                           # keep track of the number of data
+        filename = fileName     
         getFileNameCorrectly = False
-        while getFileNameCorrectly == False:
+
+        while getFileNameCorrectly == False:       # loop until get the corrent filename
             try:
                 file = open(filename, 'r')
                 getFileNameCorrectly = True
             except(FileNotFoundError):
                 print("Can not find this file. Please try again to enter the file name: ")
                 filename = input()
-        for line in file:
+
+        for line in file:                          # loop each line
             try:
-                idata = float(line.strip('\n'))
+                idata = float(line)
                 self.__data.append(idata)
                 print('data[{}] = '.format(i), idata)
                 i = i+1
             except(ValueError):
-                print("Warning: This line can't be conver to float. It has been ignord but please only contain float numbers in file." )
+                print("Warning: This line can't be conver to float. It has been ignord but please only contain float numbers each line in file." )
                 continue
         file.close()
         
 # end class
 
-def mean(data):
-    sum_value = sum(data)
-    return sum_value/len(data)
-
-def variance(data):
-    n = len(data)
-    mean_value = mean(data)
-    sum_sqr = 0
-    for i in range(n):
-        sum_sqr = sum_sqr + (data[i] - mean_value)**2
-    var = sum_sqr / (n-1)
-    return var
-
-def main():
-   
-    # mydata = [-234, 324, 3452, 2.3342, 12]          # hardcoded data set values, list with 5 elements
-    nlist = NumberList()                       # create new empty NumberList object instance
-    # nlist.setData(mydata)                       # fill it in with the data set
-    
-    nlist.getDataFromKeyboard()
-
-    # nlist.getRandomData(5, 20, 12.2)
-
-    # nlist.getDataFromFile("datasFile")
-
-    print("Numbers: " + str(nlist.getData()))               # print the data set
-    print("Mean: " + str(mean(nlist.getData())))            # calculate and print mean
-    print("Variance: " + str(variance(nlist.getData())))    # calculate and print variance
-
-    # print(nlist._NumberList__getNDataFromKeyboard())
-
-if __name__ == "__main__":
-    main()
-
-
-
-# problem: value error exception not used in keyboard
