@@ -98,8 +98,9 @@ class Sphere (Circle):                # inherits from Circle
     def __str__ (self):
         return super().__str__()
 
+# My Code:
 
-class Rectangle (Shape):                    # Doing in composition from Shape
+class Rectangle (Shape):                    # Directly inherce from shape without xy
     def __init__ (self, l, w):
         self.__l = self.__w = 0             # private l,w being protected
         self.setLength(l)
@@ -157,6 +158,7 @@ class Cube (Square):                        # inherits from Square
         return super().__str__() + "; H = " + str(self.getSide())
 
 
+# Use a class to hold all functionalities
 class ShapeList:
     def __init__ (self):
         self.__shapes = []
@@ -181,6 +183,7 @@ class ShapeList:
         print("Shape", nprint+1, " ", shape.getName(), shape, "Area: ", shape.getArea(), " Volume: ", shape.getVolume())
 
 
+    # private static method for checking choice from input
     @staticmethod
     def __getChoiceInput (range):
         choice = 0
@@ -197,6 +200,7 @@ class ShapeList:
                 print("Your choice should be an integer, please try again: ")
         return choice
 
+    # private static method for checking xy from input
     @staticmethod
     def __checkxyInput():
         value = 0
@@ -209,6 +213,7 @@ class ShapeList:
                 print("The value of the coordinate should be a float, please try again: ", end = '')
         return value
 
+    # private method returning x and y value
     def __getxyInput(self):
         print("\nPlease enter the x-coordinates value", end = ': ')
         x = self.__checkxyInput()
@@ -216,6 +221,7 @@ class ShapeList:
         y = self.__checkxyInput()
         return x, y
 
+    # private static method for checking dimention from input
     @staticmethod
     def __getDimentionInput():
         value = 0
@@ -231,6 +237,7 @@ class ShapeList:
                 print("The value of its dimention should be a float, please try again: ")
         return value
 
+    # print sub-methods:
     def __printSelectedShape (self):
         print("Please enter the number of the object you want to print: ")
         nselect = self.__getChoiceInput(self.__getListSize())
@@ -243,6 +250,7 @@ class ShapeList:
             for i in range(self.__getListSize()):
                 self.__printShape(i)
 
+    # menu or exit printing method
     def __MenuOrExit (self):
         print("\nDo you want to return to the main menu?\n"
             + "1. Yes           2. Exit the program")
@@ -253,6 +261,7 @@ class ShapeList:
             print("\nNice to meet you. Bye!")
             sys.exit()
 
+    # add shape method
     def __addShapeFromUser (self):
         print("\nChoose the shape you want to create and enter its number: \n" + 
             "1. Point \n" + "2. Circle\n" + "3. Cylinder \n" + "4. Sphere \n" +
@@ -312,6 +321,7 @@ class ShapeList:
         
         self.__MenuOrExit()
 
+    # remove shape method
     def __removeShapeFromUser(self):
         if self.__isBlankList():
             print("\nThe list is blank, please add a shape first!")
@@ -322,6 +332,7 @@ class ShapeList:
             print("The shape", ndelete, "has been successfully deleted!\n")
         self.__MenuOrExit()
 
+    # print shape method
     def __printListFromUser(self):
         if self.__isBlankList():
             print("The list is blank, please add a shape first!")
@@ -337,6 +348,7 @@ class ShapeList:
             
         self.__MenuOrExit()
     
+    # modify shape method
     def __modifyShapeFromUser(self):
         if self.__isBlankList():
             print("\nList is blank. You need to add an object first!") 
@@ -437,7 +449,7 @@ class ShapeList:
         
         self.__MenuOrExit()
                     
-
+    # menu method
     def menu(self):
         print("\nPlease choose the function you want to use: \n"
             + "1. Add a new shape\n"
