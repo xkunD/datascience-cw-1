@@ -7,6 +7,7 @@ def main():
     
     nsides = nthrows = 0
 
+    # check nsides
     print("Please enter the number of sides of the dice:")
     try:
         nsides = int(input())
@@ -14,6 +15,7 @@ def main():
         print("nsides should be a number, program exiting!")
         sys.exit
 
+    # check nthrows (integer & the multiple of nsides)
     print("Please enter the number of throws:")
     try:
         nthrows = int(input())
@@ -25,11 +27,12 @@ def main():
         print("nthrows should be >= nsides and also multiple of nsides, program exiting!")
         sys.exit
     
-    facestimes = [0]*nsides
+    facestimes = [0]*nsides                 # initialize facetimes
     
     random.seed(100)
 
-    for i in range (nthrows):
+    # loop to throw the dices
+    for i in range (nthrows):               
         value = random.randrange(0, nsides)
         # print(value)
         facestimes[value] += 1
