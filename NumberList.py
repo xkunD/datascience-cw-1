@@ -31,7 +31,7 @@ class NumberList:
     def getDataFromKeyboard (self):
         ndata = self.__getNDataFromKeyboard()
         print("Enter the data: ")
-        for i in range (ndata):
+        for i in range (ndata):                     # ask data for ndata times
             gotDataCorrectly = False
             while gotDataCorrectly == False:
                 try:
@@ -46,15 +46,19 @@ class NumberList:
         getRandomParameterCorrectly = False
         while getRandomParameterCorrectly == False:
             try:
+                # throw exception if it is float
                 if '.' in str(ndata) or '.' in str(range1) or '.' in str(range2):
                     raise ValueError
                 else:
+                    # if range2 ingored
                     if (int(range2) == 0):
                         low = 0;
                         high = int(range1)
                         number = int(ndata)
                         getRandomParameterCorrectly = True
+                    # if three parameters
                     else:
+                        # check int & range2>range1
                         if int(range1) < int(range2):
                             getRandomParameterCorrectly = True
                             low = int(range1)
