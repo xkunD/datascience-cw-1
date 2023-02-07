@@ -13,7 +13,7 @@ def main():
         nsides = int(input())
     except(ValueError, SyntaxError):
         print("nsides should be a number, program exiting!")
-        sys.exit
+        sys.exit()
 
     # check nthrows (integer & the multiple of nsides)
     print("Please enter the number of throws:")
@@ -21,11 +21,11 @@ def main():
         nthrows = int(input())
     except(ValueError, SyntaxError):
         print("nthrows should be a number, program exiting!")
-        sys.exit
+        sys.exit()
 
     if nthrows < nsides or nthrows % nsides != 0:
         print("nthrows should be >= nsides and also multiple of nsides, program exiting!")
-        sys.exit
+        sys.exit()
     
     facestimes = [0]*nsides                 # initialize facetimes
     
